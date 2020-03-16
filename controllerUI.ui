@@ -15,82 +15,19 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_2">
-    <item row="1" column="0">
-     <widget class="PlotWidget" name="graphicsView"/>
-    </item>
     <item row="0" column="0">
-     <widget class="QPushButton" name="pushButton">
+     <widget class="QPushButton" name="pushButton_ADC">
       <property name="text">
        <string>ADC Acquire</string>
       </property>
      </widget>
     </item>
+    <item row="1" column="0">
+     <widget class="PlotWidget" name="graphicsView"/>
+    </item>
     <item row="1" column="1">
      <layout class="QGridLayout" name="gridLayout">
-      <item row="4" column="1">
-       <widget class="QCheckBox" name="checkBox_3">
-        <property name="text">
-         <string>Disable Differential Switching</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="2">
-       <widget class="QLineEdit" name="Pulse_Length_lineEdit">
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>16777215</height>
-         </size>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="3">
-       <widget class="QPushButton" name="Pulse_Length_Button">
-        <property name="maximumSize">
-         <size>
-          <width>80</width>
-          <height>16777215</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Send</string>
-        </property>
-       </widget>
-      </item>
-      <item row="5" column="1">
-       <widget class="QLabel" name="label_5">
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>Pulse Length (uS)</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QCheckBox" name="checkBox">
-        <property name="layoutDirection">
-         <enum>Qt::LeftToRight</enum>
-        </property>
-        <property name="autoFillBackground">
-         <bool>false</bool>
-        </property>
-        <property name="text">
-         <string>Enable 1</string>
-        </property>
-       </widget>
-      </item>
-      <item row="7" column="3">
-       <widget class="QPushButton" name="Pulse_Delay_Button">
-        <property name="text">
-         <string>Send</string>
-        </property>
-       </widget>
-      </item>
-      <item row="9" column="1">
+      <item row="6" column="1">
        <widget class="QLabel" name="Temperature_label">
         <property name="maximumSize">
          <size>
@@ -103,29 +40,16 @@
         </property>
        </widget>
       </item>
-      <item row="10" column="2">
-       <widget class="QLabel" name="V2_Label">
-        <property name="maximumSize">
-         <size>
-          <width>100</width>
-          <height>20</height>
-         </size>
+      <item row="1" column="1">
+       <widget class="QCheckBox" name="checkBox_EnableCircuitOne">
+        <property name="layoutDirection">
+         <enum>Qt::LeftToRight</enum>
+        </property>
+        <property name="autoFillBackground">
+         <bool>false</bool>
         </property>
         <property name="text">
-         <string>TextLabel</string>
-        </property>
-       </widget>
-      </item>
-      <item row="8" column="1">
-       <widget class="QLabel" name="label_6">
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>20</height>
-         </size>
-        </property>
-        <property name="text">
-         <string>DAC</string>
+         <string>Enable 1</string>
         </property>
        </widget>
       </item>
@@ -142,8 +66,8 @@
         </property>
        </widget>
       </item>
-      <item row="11" column="1">
-       <widget class="QLabel" name="V3_Label">
+      <item row="5" column="1">
+       <widget class="QLabel" name="label_6">
         <property name="maximumSize">
          <size>
           <width>16777215</width>
@@ -151,24 +75,46 @@
          </size>
         </property>
         <property name="text">
-         <string>TextLabel</string>
+         <string>DAC</string>
         </property>
        </widget>
       </item>
-      <item row="10" column="1">
-       <widget class="QLabel" name="V1_Label">
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>20</height>
-         </size>
+      <item row="1" column="2">
+       <widget class="QCheckBox" name="checkBox_EnableCircuitTwo">
+        <property name="font">
+         <font>
+          <pointsize>13</pointsize>
+         </font>
+        </property>
+        <property name="layoutDirection">
+         <enum>Qt::LeftToRight</enum>
         </property>
         <property name="text">
-         <string>TextLabel</string>
+         <string>Enable 2</string>
         </property>
        </widget>
       </item>
-      <item row="7" column="1">
+      <item row="4" column="2">
+       <widget class="QLineEdit" name="Pulse_Delay_lineEdit">
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>16777215</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="2">
+       <widget class="QLineEdit" name="Pulse_Length_lineEdit">
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>16777215</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="1">
        <widget class="QLabel" name="label_7">
         <property name="maximumSize">
          <size>
@@ -181,8 +127,71 @@
         </property>
        </widget>
       </item>
-      <item row="11" column="2">
-       <widget class="QLabel" name="V4_Label">
+      <item row="5" column="2">
+       <widget class="QSpinBox" name="spinBox_DAC">
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>16777215</height>
+         </size>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="1">
+       <widget class="QLabel" name="label_5">
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Pulse Length (uS)</string>
+        </property>
+       </widget>
+      </item>
+      <item row="3" column="3">
+       <widget class="QPushButton" name="Pulse_Length_Button">
+        <property name="maximumSize">
+         <size>
+          <width>80</width>
+          <height>16777215</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Send</string>
+        </property>
+       </widget>
+      </item>
+      <item row="2" column="1">
+       <widget class="QCheckBox" name="checkBox_DisableSwitching">
+        <property name="text">
+         <string>Disable Differential Switching</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="2">
+       <widget class="QLabel" name="V2_Label">
+        <property name="maximumSize">
+         <size>
+          <width>100</width>
+          <height>20</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>TextLabel</string>
+        </property>
+       </widget>
+      </item>
+      <item row="4" column="3">
+       <widget class="QPushButton" name="Pulse_Delay_Button">
+        <property name="text">
+         <string>Send</string>
+        </property>
+       </widget>
+      </item>
+      <item row="7" column="1">
+       <widget class="QLabel" name="V1_Label">
         <property name="maximumSize">
          <size>
           <width>16777215</width>
@@ -194,38 +203,29 @@
         </property>
        </widget>
       </item>
-      <item row="7" column="2">
-       <widget class="QLineEdit" name="Pulse_Delay_lineEdit">
+      <item row="8" column="1">
+       <widget class="QLabel" name="V3_Label">
         <property name="maximumSize">
          <size>
-          <width>100</width>
-          <height>16777215</height>
+          <width>16777215</width>
+          <height>20</height>
          </size>
         </property>
-       </widget>
-      </item>
-      <item row="1" column="2">
-       <widget class="QCheckBox" name="checkBox_2">
-        <property name="font">
-         <font>
-          <pointsize>8</pointsize>
-         </font>
-        </property>
-        <property name="layoutDirection">
-         <enum>Qt::LeftToRight</enum>
-        </property>
         <property name="text">
-         <string>Enable 2</string>
+         <string>TextLabel</string>
         </property>
        </widget>
       </item>
       <item row="8" column="2">
-       <widget class="QSpinBox" name="spinBox">
+       <widget class="QLabel" name="V4_Label">
         <property name="maximumSize">
          <size>
-          <width>100</width>
-          <height>16777215</height>
+          <width>16777215</width>
+          <height>20</height>
          </size>
+        </property>
+        <property name="text">
+         <string>TextLabel</string>
         </property>
        </widget>
       </item>
@@ -239,7 +239,7 @@
      <x>0</x>
      <y>0</y>
      <width>821</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>

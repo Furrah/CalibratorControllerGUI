@@ -13,7 +13,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         # self.I2C_Setup()
         # self.Labels()
         self.Buttons()
-        # self.CheckBoxes()
+        self.CheckBoxes()
 
         self.timer = QtCore.QTimer()
         # self.timer.timeout.connect(self.Labels)
@@ -82,19 +82,52 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.Temperature_label.setText('Temperature: {:.2f}'.format(Temp))
 
     def Buttons(self):
-        self.pushButton.clicked.connect(self.ADC)
+        self.pushButton_ADC.clicked.connect(self.ADC)
         self.Pulse_Length_Button.clicked.connect(self.Send_Pulse_Length)
         self.Pulse_Delay_Button.clicked.connect(self.Send_Pulse_Delay)
         self.pushButton_2.clicked.connect(self.I2C_Setup)
 
     def ADC(self):
+
+        data = []
+
+        for i in range(0x1000,0x1100):
+            string = Read_I2C(device=mcp2221, addr=0x40, register=i, num_bytes=4)
+            data.append(string)
+
+        ref_voltage = 3.00
+        normalise = (2**23) - 1
+
+        # DATA CLEANING
+
+        data = np.asarray(data, dtype='int32')
+        data = data & 0xffffff
+        data = data.astype('float64')
+        data = np.where(data >= 2**23, data - 2**24, data)  
+        data /= normalise
+        data *= ref_voltage
+
         self.curve1 = self.graphicsView.plot(
             pen=pg.mkPen('y', width=1), name='yellow plot')
-        self.curve1.setData([1, 2, 3], [1, 2, 3])
+        self.curve1.setData(data)
 
     def CheckBoxes(self):
-        self.checkBox.stateChanged.connect(self.Send_all_to_HB)
-        self.checkBox_2.stateChanged.connect(self.Change_Load)
+        self.checkBox_EnableCircuitOne.stateChanged.connect(self.CircuitEnable)
+        self.checkBox_EnableCircuitTwo.stateChanged.connect(self.CircuitEnable)
+
+    def CircuitEnable(self):
+
+        a = self.checkBox_EnableCircuitOne.isChecked()
+        b = self.checkBox_EnableCircuitTwo.isChecked()
+
+        if (a & b):
+            Write_FPGA(device=mcp2221, addr=0x40, register=0x03, data=[0x30,0x00,0x00,0x00])
+        elif (a & ~b):
+            Write_FPGA(device=mcp2221, addr=0x40, register=0x03, data=[0x10,0x00,0x00,0x00])
+        elif (~a & b):
+            Write_FPGA(device=mcp2221, addr=0x40, register=0x03, data=[0x20,0x00,0x00,0x00])
+        else:
+            Write_FPGA(device=mcp2221, addr=0x40, register=0x03, data=[0x00,0x00,0x00,0x00])
 
     def Send_all_to_HB(self, state):
         if state == Qt.Checked:
@@ -123,9 +156,6 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         if len(value)> 0:
             if int(value) < 200 and int(value) > 0:
                 pass 
-
-    def Update(self):
-        print('hello')
 
 
 
