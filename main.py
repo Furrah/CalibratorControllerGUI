@@ -5,18 +5,19 @@ import qdarkstyle
 from controllerUI import Ui_MainWindow
 import pyqtgraph as pg
 from PyMCP2221A import PyMCP2221A
+import numpy as np
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self, *args, obj=None, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
         self.setupUi(self)
-        # self.I2C_Setup()
-        # self.Labels()
+        self.I2C_Setup()
+        self.Labels()
         self.Buttons()
         self.CheckBoxes()
 
         self.timer = QtCore.QTimer()
-        # self.timer.timeout.connect(self.Labels)
+        self.timer.timeout.connect(self.Labels)
         self.timer.start(1000)
 
 
@@ -92,8 +93,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         data = []
 
         for i in range(0x1000,0x1100):
-            string = Read_I2C(device=mcp2221, addr=0x40, register=i, num_bytes=4)
-            data.append(string)
+            self.mcp2221.I2C_Write_No_Stop(0x40, [i >> 8, i & 0xFF])
+            read = list(self.mcp2221.I2C_Read_Repeated(0x40, 4))
+            print(read,hex(i))
+            read = read[0] + (read[1] << 8) + (read[2] << 16) + (read[3] << 24)
+            data.append(read)
 
         ref_voltage = 3.00
         normalise = (2**23) - 1
@@ -121,13 +125,13 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         b = self.checkBox_EnableCircuitTwo.isChecked()
 
         if (a & b):
-            Write_FPGA(device=mcp2221, addr=0x40, register=0x03, data=[0x30,0x00,0x00,0x00])
+            self.Write_FPGA(addr=0x40, register=0x03, data=[0x30,0x00,0x00,0x00])
         elif (a & ~b):
-            Write_FPGA(device=mcp2221, addr=0x40, register=0x03, data=[0x10,0x00,0x00,0x00])
+            self.Write_FPGA(addr=0x40, register=0x03, data=[0x10,0x00,0x00,0x00])
         elif (~a & b):
-            Write_FPGA(device=mcp2221, addr=0x40, register=0x03, data=[0x20,0x00,0x00,0x00])
+            self.Write_FPGA(addr=0x40, register=0x03, data=[0x20,0x00,0x00,0x00])
         else:
-            Write_FPGA(device=mcp2221, addr=0x40, register=0x03, data=[0x00,0x00,0x00,0x00])
+            self.Write_FPGA(addr=0x40, register=0x03, data=[0x00,0x00,0x00,0x00])
 
     def Send_all_to_HB(self, state):
         if state == Qt.Checked:

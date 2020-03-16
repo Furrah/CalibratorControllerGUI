@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'ControllerUI.ui'
+# Form implementation generated from reading ui file 'controllerUI.ui'
 #
-# Created by: PyQt5 UI code generator 5.13.0
+# Created by: PyQt5 UI code generator 5.9.2
 #
 # WARNING! All changes made in this file will be lost!
 
-
 from PyQt5 import QtCore, QtGui, QtWidgets
-
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -45,7 +43,7 @@ class Ui_MainWindow(object):
         self.gridLayout.addWidget(self.label_6, 5, 1, 1, 1)
         self.checkBox_EnableCircuitTwo = QtWidgets.QCheckBox(self.centralwidget)
         font = QtGui.QFont()
-        font.setPointSize(13)
+        font.setPointSize(8)
         self.checkBox_EnableCircuitTwo.setFont(font)
         self.checkBox_EnableCircuitTwo.setLayoutDirection(QtCore.Qt.LeftToRight)
         self.checkBox_EnableCircuitTwo.setObjectName("checkBox_EnableCircuitTwo")
@@ -62,10 +60,6 @@ class Ui_MainWindow(object):
         self.label_7.setMaximumSize(QtCore.QSize(16777215, 20))
         self.label_7.setObjectName("label_7")
         self.gridLayout.addWidget(self.label_7, 4, 1, 1, 1)
-        self.spinBox_DAC = QtWidgets.QSpinBox(self.centralwidget)
-        self.spinBox_DAC.setMaximumSize(QtCore.QSize(100, 16777215))
-        self.spinBox_DAC.setObjectName("spinBox_DAC")
-        self.gridLayout.addWidget(self.spinBox_DAC, 5, 2, 1, 1)
         self.label_5 = QtWidgets.QLabel(self.centralwidget)
         self.label_5.setMaximumSize(QtCore.QSize(16777215, 20))
         self.label_5.setObjectName("label_5")
@@ -96,10 +90,23 @@ class Ui_MainWindow(object):
         self.V4_Label.setMaximumSize(QtCore.QSize(16777215, 20))
         self.V4_Label.setObjectName("V4_Label")
         self.gridLayout.addWidget(self.V4_Label, 8, 2, 1, 1)
+        self.horizontalSlider = QtWidgets.QSlider(self.centralwidget)
+        sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.horizontalSlider.sizePolicy().hasHeightForWidth())
+        self.horizontalSlider.setSizePolicy(sizePolicy)
+        self.horizontalSlider.setAutoFillBackground(False)
+        self.horizontalSlider.setMaximum(100)
+        self.horizontalSlider.setProperty("value", 50)
+        self.horizontalSlider.setOrientation(QtCore.Qt.Horizontal)
+        self.horizontalSlider.setTickPosition(QtWidgets.QSlider.TicksBelow)
+        self.horizontalSlider.setObjectName("horizontalSlider")
+        self.gridLayout.addWidget(self.horizontalSlider, 5, 2, 1, 1)
         self.gridLayout_2.addLayout(self.gridLayout, 1, 1, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 821, 22))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 821, 21))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
@@ -127,4 +134,5 @@ class Ui_MainWindow(object):
         self.V1_Label.setText(_translate("MainWindow", "TextLabel"))
         self.V3_Label.setText(_translate("MainWindow", "TextLabel"))
         self.V4_Label.setText(_translate("MainWindow", "TextLabel"))
+
 from pyqtgraph import PlotWidget
