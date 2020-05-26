@@ -102,7 +102,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             pen=pg.mkPen('y', width=1), name='yellow plot')
         self.curve2.setData(offset)
 
-    def ADCgetData(regA,regB):
+    def ADCgetData(self,regA,regB):
         
         data = []
 
@@ -113,7 +113,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             read = read[0] + (read[1] << 8) + (read[2] << 16) + (read[3] << 24)
             data.append(read)
             # print(read)
-            
+
         ref_voltage = 3.00
         normalise = (2**23) - 1
 
