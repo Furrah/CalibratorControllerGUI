@@ -15,6 +15,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         # self.Labels()
         self.Buttons()
         self.CheckBoxes()
+        self.Slider()
+        # self.DACsetup()
 
         self.timer = QtCore.QTimer()
         # self.timer.timeout.connect(self.Labels)
@@ -88,6 +90,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.Pulse_Delay_Button.clicked.connect(self.Send_Pulse_Delay)
         self.pushButton_2.clicked.connect(self.I2C_Setup)
 
+    def Slider(self):
+        self.horizontalSlider.valueChanged.connect(self.DAC)
+
+
     def ADC(self):
 
         offset = self.ADCgetData(0x1000,0x11FF)
@@ -101,6 +107,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.curve2 = self.graphicsView_2_Offset.plot(
             pen=pg.mkPen('y', width=1), name='yellow plot')
         self.curve2.setData(offset)
+
+
+        if (len(offset) > 0):
+            avg = np.mean(offset[0:200])
+        self.label_offset_average(str(avg))
 
     def ADCgetData(self,regA,regB):
         
@@ -128,6 +139,27 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         data *= ref_voltage
 
         return data
+
+    def DACsetup(self):
+        self.mcp2221.I2C_Write(0xF,[0x3F,0x00,0x01])
+
+
+    def DAC(self):
+
+        value = self.horizontalSlider.value()
+
+        # value = value / 100 * 4095
+        value = value/100 * 5
+        self.label_DAC_Value.setText(("{:.2f}".format(value)))
+
+
+
+
+        # self.mcp2221.I2C_Write_No_Stop(0xF, [0x1F, 0x7F,0xFF])
+        # read = list(mcp2221.I2C_Read_Repeated(0xF, 3))
+        # read.reverse()
+        # for element in read:
+        #     print(hex(element))
 
 
     def CheckBoxes(self):

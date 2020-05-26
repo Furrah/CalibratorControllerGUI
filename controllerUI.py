@@ -130,6 +130,10 @@ class Ui_MainWindow(object):
         self.pushButton_ADC = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_ADC.setObjectName("pushButton_ADC")
         self.gridLayout_3.addWidget(self.pushButton_ADC, 1, 0, 1, 1)
+        self.label_offset_average = QtWidgets.QLabel(self.centralwidget)
+        self.label_offset_average.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_offset_average.setObjectName("label_offset_average")
+        self.gridLayout_3.addWidget(self.label_offset_average, 1, 1, 1, 1)
         self.gridLayout_2.addLayout(self.gridLayout_3, 1, 0, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
@@ -162,6 +166,7 @@ class Ui_MainWindow(object):
         self.label_DAC_Value.setText(_translate("MainWindow", "TextLabel"))
         self.checkBox_EnableCircuitTwo.setText(_translate("MainWindow", "Enable 2"))
         self.pushButton_ADC.setText(_translate("MainWindow", "ADC Acquire"))
+        self.label_offset_average.setText(_translate("MainWindow", "TextLabel"))
 from pyqtgraph import PlotWidget
 
 
