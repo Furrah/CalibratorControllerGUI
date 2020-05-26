@@ -92,19 +92,20 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         data = []
 
-        for i in range(0x1000,0x1100):
+        for i in range(0x1000,0x11ff):
             self.mcp2221.I2C_Write_No_Stop(0x40, [i >> 8, i & 0xFF])
             read = list(self.mcp2221.I2C_Read_Repeated(0x40, 4))
             print(read,hex(i))
             read = read[0] + (read[1] << 8) + (read[2] << 16) + (read[3] << 24)
             data.append(read)
-
+            print(read)
         ref_voltage = 3.00
         normalise = (2**23) - 1
 
         # DATA CLEANING
 
-        data = np.asarray(data, dtype='int32')
+        # data = np.asarray(data, dtype='int32')
+        data = np.asarray(data)
         data = data & 0xffffff
         data = data.astype('float64')
         data = np.where(data >= 2**23, data - 2**24, data)  
@@ -125,11 +126,11 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         b = self.checkBox_EnableCircuitTwo.isChecked()
 
         if (a & b):
-            self.Write_FPGA(addr=0x40, register=0x03, data=[0x30,0x00,0x00,0x00])
+            self.Write_FPGA(addr=0x40, register=0x03, data=[0x03,0x00,0x00,0x00])
         elif (a & ~b):
-            self.Write_FPGA(addr=0x40, register=0x03, data=[0x10,0x00,0x00,0x00])
+            self.Write_FPGA(addr=0x40, register=0x03, data=[0x01,0x00,0x00,0x00])
         elif (~a & b):
-            self.Write_FPGA(addr=0x40, register=0x03, data=[0x20,0x00,0x00,0x00])
+            self.Write_FPGA(addr=0x40, register=0x03, data=[0x21,0x00,0x00,0x00])
         else:
             self.Write_FPGA(addr=0x40, register=0x03, data=[0x00,0x00,0x00,0x00])
 
