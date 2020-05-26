@@ -11,13 +11,13 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self, *args, obj=None, **kwargs):
         super(MainWindow, self).__init__(*args, **kwargs)
         self.setupUi(self)
-        self.I2C_Setup()
-        self.Labels()
+        # self.I2C_Setup()
+        # self.Labels()
         self.Buttons()
         self.CheckBoxes()
 
         self.timer = QtCore.QTimer()
-        self.timer.timeout.connect(self.Labels)
+        # self.timer.timeout.connect(self.Labels)
         self.timer.start(1000)
 
 
@@ -90,15 +90,30 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def ADC(self):
 
+        offset = self.ADCgetData(0x1000,0x11FF)
+
+        measurement = self.ADCgetData(0x2000,0x2FFF)
+
+        self.curve1 = self.graphicsView.plot(
+            pen=pg.mkPen('y', width=1), name='yellow plot')
+        self.curve1.setData(measurement)
+
+        self.curve2 = self.graphicsView_2_Offset.plot(
+            pen=pg.mkPen('y', width=1), name='yellow plot')
+        self.curve2.setData(offset)
+
+    def ADCgetData(regA,regB):
+        
         data = []
 
-        for i in range(0x1000,0x11ff):
+        for i in range(regA,regB):
             self.mcp2221.I2C_Write_No_Stop(0x40, [i >> 8, i & 0xFF])
             read = list(self.mcp2221.I2C_Read_Repeated(0x40, 4))
             print(read,hex(i))
             read = read[0] + (read[1] << 8) + (read[2] << 16) + (read[3] << 24)
             data.append(read)
-            print(read)
+            # print(read)
+            
         ref_voltage = 3.00
         normalise = (2**23) - 1
 
@@ -112,9 +127,8 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         data /= normalise
         data *= ref_voltage
 
-        self.curve1 = self.graphicsView.plot(
-            pen=pg.mkPen('y', width=1), name='yellow plot')
-        self.curve1.setData(data)
+        return data
+
 
     def CheckBoxes(self):
         self.checkBox_EnableCircuitOne.stateChanged.connect(self.CircuitEnable)
