@@ -6,6 +6,7 @@ from controllerUI import Ui_MainWindow
 import pyqtgraph as pg
 from PyMCP2221A import PyMCP2221A
 import numpy as np
+import struct
 
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
     def __init__(self, *args, obj=None, **kwargs):
@@ -13,6 +14,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.setupUi(self)
         # self.I2C_Setup()
         # self.Labels()
+        # self.Version_ID()
         self.Buttons()
         self.CheckBoxes()
         self.Slider()
@@ -32,9 +34,9 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
     def Read_I2C(self,addr,register,num_bytes):
         self.mcp2221.I2C_Write_No_Stop(addr, [0x00, register])
-        read = list(device.I2C_Read_Repeated(addr, num_bytes))
-        read.reverse()
-        return read
+        read = list(self.mcp2221.I2C_Read_Repeated(addr, num_bytes))
+        # read.reverse()
+        return read[0] + (read[1] << 8) + (read[2] << 16) + (read[3] << 24)
 
     def Write_FPGA(self,addr,register,data):
         self.mcp2221.I2C_Write(addr, ([0x00, register] + data ))
@@ -84,6 +86,17 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         self.V4_Label.setText('+5VD Voltage: {:.2f}V'.format(V3))
         self.Temperature_label.setText('Temperature: {:.2f}'.format(Temp))
 
+    def Version_ID(self):
+        string_lsb = self.Read_I2C(addr=0x40, register=0x01,num_bytes=4)
+        string_msb = self.Read_I2C(addr=0x40, register=0x00,num_bytes=4)
+        string = struct.unpack("8s", struct.pack(">LL", string_msb, string_lsb))[0].rstrip(b'\x00').decode()
+
+        version = self.Read_I2C( addr=0x40, register=0x02, num_bytes =4)
+
+        self.label_ID.setText(string)
+        self.label_Version.setText(f'{version:08X}')
+
+
     def Buttons(self):
         self.pushButton_ADC.clicked.connect(self.ADC)
         self.Pulse_Length_Button.clicked.connect(self.Send_Pulse_Length)
@@ -111,7 +124,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
 
         if (len(offset) > 0):
             avg = np.mean(offset[0:200])
-        self.label_offset_average(str(avg))
+            self.label_offset_average.setText(str(avg))
 
     def ADCgetData(self,regA,regB):
         
@@ -152,10 +165,12 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
         value = value/100 * 5
         self.label_DAC_Value.setText(("{:.2f}".format(value)))
 
+        out_value = value/5 * 4095
 
+        msb = (int(out_value) & 0xff0) >> 4
+        lsb = (int(out_value) & 0x00f) | 0x0f
 
-
-        # self.mcp2221.I2C_Write_No_Stop(0xF, [0x1F, 0x7F,0xFF])
+        self.mcp2221.I2C_Write_No_Stop(0xF, [0x1F, msb,lsb])
         # read = list(mcp2221.I2C_Read_Repeated(0xF, 3))
         # read.reverse()
         # for element in read:

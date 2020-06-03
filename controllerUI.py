@@ -2,13 +2,11 @@
 
 # Form implementation generated from reading ui file 'controllerUI.ui'
 #
-# Created by: PyQt5 UI code generator 5.13.0
+# Created by: PyQt5 UI code generator 5.9.2
 #
 # WARNING! All changes made in this file will be lost!
 
-
 from PyQt5 import QtCore, QtGui, QtWidgets
-
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -27,6 +25,7 @@ class Ui_MainWindow(object):
         self.graphicsView_2_Offset.setObjectName("graphicsView_2_Offset")
         self.gridLayout_3.addWidget(self.graphicsView_2_Offset, 2, 1, 1, 1)
         self.gridLayout = QtWidgets.QGridLayout()
+        self.gridLayout.setHorizontalSpacing(6)
         self.gridLayout.setObjectName("gridLayout")
         self.Pulse_Delay_Button = QtWidgets.QPushButton(self.centralwidget)
         self.Pulse_Delay_Button.setMaximumSize(QtCore.QSize(100, 16777215))
@@ -126,6 +125,20 @@ class Ui_MainWindow(object):
         self.checkBox_EnableCircuitTwo = QtWidgets.QCheckBox(self.centralwidget)
         self.checkBox_EnableCircuitTwo.setObjectName("checkBox_EnableCircuitTwo")
         self.gridLayout.addWidget(self.checkBox_EnableCircuitTwo, 1, 1, 1, 1)
+        self.label = QtWidgets.QLabel(self.centralwidget)
+        self.label.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label.setObjectName("label")
+        self.gridLayout.addWidget(self.label, 1, 3, 1, 1)
+        self.label_2 = QtWidgets.QLabel(self.centralwidget)
+        self.label_2.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
+        self.label_2.setObjectName("label_2")
+        self.gridLayout.addWidget(self.label_2, 2, 3, 1, 1)
+        self.label_ID = QtWidgets.QLabel(self.centralwidget)
+        self.label_ID.setObjectName("label_ID")
+        self.gridLayout.addWidget(self.label_ID, 1, 4, 1, 1)
+        self.label_Version = QtWidgets.QLabel(self.centralwidget)
+        self.label_Version.setObjectName("label_Version")
+        self.gridLayout.addWidget(self.label_Version, 2, 4, 1, 1)
         self.gridLayout_3.addLayout(self.gridLayout, 0, 0, 1, 2)
         self.pushButton_ADC = QtWidgets.QPushButton(self.centralwidget)
         self.pushButton_ADC.setObjectName("pushButton_ADC")
@@ -137,7 +150,7 @@ class Ui_MainWindow(object):
         self.gridLayout_2.addLayout(self.gridLayout_3, 1, 0, 1, 1)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 880, 22))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 880, 21))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
@@ -165,10 +178,14 @@ class Ui_MainWindow(object):
         self.checkBox_EnableCircuitOne.setText(_translate("MainWindow", "Enable 1"))
         self.label_DAC_Value.setText(_translate("MainWindow", "TextLabel"))
         self.checkBox_EnableCircuitTwo.setText(_translate("MainWindow", "Enable 2"))
+        self.label.setText(_translate("MainWindow", "ID:"))
+        self.label_2.setText(_translate("MainWindow", "Version:"))
+        self.label_ID.setText(_translate("MainWindow", "TextLabel"))
+        self.label_Version.setText(_translate("MainWindow", "TextLabel"))
         self.pushButton_ADC.setText(_translate("MainWindow", "ADC Acquire"))
         self.label_offset_average.setText(_translate("MainWindow", "TextLabel"))
-from pyqtgraph import PlotWidget
 
+from pyqtgraph import PlotWidget
 
 if __name__ == "__main__":
     import sys
@@ -178,3 +195,4 @@ if __name__ == "__main__":
     ui.setupUi(MainWindow)
     MainWindow.show()
     sys.exit(app.exec_())
+
